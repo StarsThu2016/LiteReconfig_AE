@@ -85,14 +85,77 @@ The results will be written to ```test/executor_LiteReconfig_g{0,50}_lat100_tx2_
 ## Experiment (E3)
 [Latency improvement of LiteReconfig over accuracy-optimized baselines, i.e. SELSA, MEGA, and REPP] [20 human-minutes + 1 compute-hours]: we will run LiteReconfig on the TX2 and examine the latency performance of it. Expected mean latency of LiteReconfig is 28.2 ms. Those of SELSA, MEGA, and REPP are 2112 ms, 861 ms, and 565 ms. So LiteReconfig achieves 74.9X, 30.5X, and 20.0X speed up over these three baselines (claim C3).
 On TX2, run the following commands,
+
+- For MEGA
 ```
-$ conda activate ae
-(ae) $ cd ~/LiteReconfig_AE
-(ae) $ python LiteReconfig.py --gl 0 \
-  --lat_req 33.3 --mobile_device=tx2 \
-  --output=test/executor_LiteReconfig.txt
+$ conda activate baselines
+# For Full evaluation
+(baselines) $ cd ~/LiteReconfig/baselines/MEGA/mega.pytorch
+(baselines) $ python demo/demo.py base configs/vid_R_50_C4_1x.yaml R_50.pth --suffix ".JPEG" --visualize-path VID_testimg_full.txt --output-folder visualization
+
+# For a quick latency evaluation
+(baselines) $ cd ~/LiteReconfig/baselines/MEGA/mega.pytorch
+(baselines) $ python demo/demo.py base configs/vid_R_50_C4_1x.yaml R_50.pth --suffix ".JPEG" --visualize-path VID_testimg_00106000.txt --output-folder visualization
+
+These commands will produce the output in two files.
+'test_MEGA_det.txt' for detection results, 'test_MEGA_lat.txt' for latency results.
 ```
-The results will be written to ```test/executor_LiteReconfig_g0_lat33_tx2_{det,lat}.txt```. We have saved a copy of these files in ```offline_logs_AE/```, and use ```python offline_eval_exp3.py``` to compute the accuracy and latency from these results files. One may replace the filenames by those in the online execution.
+
+- For SELSA
+```
+# For SELSA
+$ conda activate baselines
+
+# For Full evaluation
+(baselines) $ cd ~/LiteReconfig/baselines/SELSA/mmtracking
+(baselines) $ ./demo/demo_vid.py --config ./configs/vid/selsa/selsa_faster_rcnn_r50_dc5_1x_imagenetvid.py --input VID_testimg_full.txt --checkpoint selsa_faster_rcnn_r50_dc5_1x_imagenetvid_20201227_204835-2f5a4952.pth --output test
+
+# For a quick latency evaluation
+(baselines) $ cd ~/LiteReconfig/baselines/SELSA/mmtracking
+(baselines) $ ./demo/demo_vid.py --config ./configs/vid/selsa/selsa_faster_rcnn_r50_dc5_1x_imagenetvid.py --input VID_testimg_00106000.txt --checkpoint selsa_faster_rcnn_r50_dc5_1x_imagenetvid_20201227_204835-2f5a4952.pth --output test
+
+These commands will produce the output in two files.
+'test_selsa_det.txt' for detection results, 'test_selsa_lat.txt' for latency results.
+
+The latency log file can be found in 'Files_for_Baselines/mmtracking/resnet50_selsa_lat_n.txt'
+```
+
+- For REPP
+```
+$ conda activate baselines
+# For full evaluation
+(baselines) $ cd ~/LiteReconfig/baselines/Robust-and-efficient-post-processing-for-video-object-detection/demos/YOLOv3
+(baselines) $ python get_repp_predictions.py --yolo_path ./pretrained_models/ILSVRC/1203_1758_model_8/ \
+  --repp_format --add_appearance --from_annotations ../../data_annotations/annotations_val_ILSVRC.txt \
+  --dataset_path /home/nvidia/sdcard/ILSVRC2015/Data/VID/
+(baselines) $ cd ../..
+(baselines) $ python REPP.py --repp_cfg ./REPP_cfg/yolo_repp_cfg.json --predictions_file './demos/YOLOv3/predictions/base_preds.pckl' --evaluate --annotations_filename ./data_annotations/annotations_val_ILSVRC.txt  --path_dataset /path/to/dataset/ILSVRC2015/ --store_coco --store_imdb
+
+# For a quick latency evaluation
+(baselines) $ cd ~/LiteReconfig/baselines/Robust-and-efficient-post-processing-for-video-object-detection/demos/YOLOv3
+(baselines) $ python get_repp_predictions.py --yolo_path ./pretrained_models/ILSVRC/1203_1758_model_8/ \
+  --repp_format --add_appearance --from_annotations ../../data_annotations/annotations_val_ILSVRC_chop.txt \
+  --dataset_path /home/jay/ILSVRC2015/Data/VID/
+(baselines) $ cd ../..
+(baselines) $ python REPP.py --repp_cfg ./REPP_cfg/yolo_repp_cfg_smb.json \
+​   --predictions_file './demos/YOLOv3/predictions/preds_repp_app_annotations_val_ILSVRC_chop.pckl' \
+​   --annotations_filename ./data_annotations/data_annotations/annotations_val_ILSVRC_chop.txt  \
+​   --path_dataset /home/jay/ILSVRC2015 --store_coco
+
+The accuracy results for REPP is identical to what is reported in the original repo.
+https://github.com/AlbertoSabater/Robust-and-efficient-post-processing-for-video-object-detection
+
+The latency values are output through the terminal automatically, by calculating the average latency per frame.
+```
+
+Use `latency_average.py` to calculate the average latency per frame from the latency output file. 
+```
+python latency_average.py --file Files_for_Baselines/mmtracking/resnet50_selsa_lat_n.txt
+
+>>Average Latency is 2116.2790597991393 ms
+```
+
+
 
 ## Experiment (E4)
 [Accuracy improvement at the same latency over a variant of LiteReconfig, i.e. LiteReconfig-MaxContent-ResNet] [20 human-minutes + 10 compute-hours]: we will run LiteReconfig and LiteReconfig-MaxContent-ResNet on the TX2 and examine the accuracy and latency performance of them. Expected accuracy given no contention and 33.3 ms latency SLA is 45.4% for LiteReconfig and 44.4% for LiteReconfig-MaxContent-ResNet. Expected accuracy given 50\% contention and 50 ms latency SLA is 43.6% for LiteReconfig and 41.4% for LiteReconfig-MaxContent-ResNet. Thus, LiteReconfig is 1.0% and 2.2% mAP better than LiteReconfig-MaxContent-ResNet in these two cases  (claim C4).
