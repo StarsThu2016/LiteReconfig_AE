@@ -63,7 +63,7 @@ $ conda activate ae
   --lat_req 20 --mobile_device=xv \
   --output=test/executor_LiteReconfig.txt
 ```
-The results will be written to ```test/executor_LiteReconfig_g0_{lat33_tx2,lat20_xv}_{det,lat}.txt```. Use the following post-processing script to compute the accuracy and latency from these results files.
+The results will be written to ```test/executor_LiteReconfig_g0_{lat33_tx2,lat20_xv}_{det,lat}.txt```. We have saved a copy of these files in ```offline_logs_AE/```, and use ```python offline_eval_exp1.py``` to compute the accuracy and latency from these results files. One may replace the filenames by those in the online execution.
 
 ## Experiment (E2)
 [Accuracy improvement at the same latency over the state-of-the-art (SOTA) work, ApproxDet] [20 human-minutes + 12 compute-hours]: we will run LiteReconfig on TX2 given 100 ms latency SLA and examine the true accuracy and latency metrics of it. Then we will compare it with ApproxDet. Expected accuracy and latency of LiteReconfig under no contention is 50.3% mAP and less than 100 ms 95 percentile latency, which is 3.5% higher than that of ApproxDet in the same condition (46.8%). Under 50% GPU contention and 100 ms SLA, the accuracy of LiteReconfig is 47.0%, which is 1.8% mAP higher than that of SmartAdapt (45.2%) (claim C2).  
@@ -80,7 +80,7 @@ $ conda activate ae
   --output=test/executor_LiteReconfig.txt
 (ae) $ python LiteReconfig_CG.py --GPU 0 
 ```
-The results will be written to ```test/executor_LiteReconfig_g{0,50}_lat100_tx2_{det,lat}.txt```. Use the following post-processing scripts to compute the accuracy and latency from these results files.
+The results will be written to ```test/executor_LiteReconfig_g{0,50}_lat100_tx2_{det,lat}.txt```. We have saved a copy of these files in ```offline_logs_AE/```, and use ```python offline_eval_exp2.py``` to compute the accuracy and latency from these results files. One may replace the filenames by those in the online execution.
 
 ## Experiment (E3)
 [Latency improvement of LiteReconfig over accuracy-optimized baselines, i.e. SELSA, MEGA, and REPP] [20 human-minutes + 1 compute-hours]: we will run LiteReconfig on the TX2 and examine the latency performance of it. Expected mean latency of LiteReconfig is 28.2 ms. Those of SELSA, MEGA, and REPP are 2112 ms, 861 ms, and 565 ms. So LiteReconfig achieves 74.9X, 30.5X, and 20.0X speed up over these three baselines (claim C3).
@@ -92,7 +92,7 @@ $ conda activate ae
   --lat_req 33.3 --mobile_device=tx2 \
   --output=test/executor_LiteReconfig.txt
 ```
-The results will be written to ```test/executor_LiteReconfig_g0_lat33_tx2_{det,lat}.txt```. Use the following post-processing script to compute the accuracy and latency from these results files.
+The results will be written to ```test/executor_LiteReconfig_g0_lat33_tx2_{det,lat}.txt```. We have saved a copy of these files in ```offline_logs_AE/```, and use ```python offline_eval_exp3.py``` to compute the accuracy and latency from these results files. One may replace the filenames by those in the online execution.
 
 ## Experiment (E4)
 [Accuracy improvement at the same latency over a variant of LiteReconfig, i.e. LiteReconfig-MaxContent-ResNet] [20 human-minutes + 10 compute-hours]: we will run LiteReconfig and LiteReconfig-MaxContent-ResNet on the TX2 and examine the accuracy and latency performance of them. Expected accuracy given no contention and 33.3 ms latency SLA is 45.4% for LiteReconfig and 44.4% for LiteReconfig-MaxContent-ResNet. Expected accuracy given 50\% contention and 50 ms latency SLA is 43.6% for LiteReconfig and 41.4% for LiteReconfig-MaxContent-ResNet. Thus, LiteReconfig is 1.0% and 2.2% mAP better than LiteReconfig-MaxContent-ResNet in these two cases  (claim C4).
@@ -117,4 +117,4 @@ $ conda activate ae
   --output=test/executor_LR_MC_ResNet.txt
 (ae) $ python LiteReconfig_CG.py --GPU 0 
 ```
-The results will be written to ```test/executor_{LiteReconfig,LR_MC_ResNet}_{g0_lat33,g50_lat50}_tx2_{det,lat}.txt```. Use the following post-processing script to compute the accuracy and latency from these results files.
+The results will be written to ```test/executor_{LiteReconfig,LR_MC_ResNet}_{g0_lat33,g50_lat50}_tx2_{det,lat}.txt```. We have saved a copy of these files in ```offline_logs_AE/```, and use ```python offline_eval_exp4.py``` to compute the accuracy and latency from these results files. One may replace the filenames by those in the online execution.
