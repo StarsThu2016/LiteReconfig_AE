@@ -85,6 +85,14 @@ The results will be written to ```test/executor_LiteReconfig_g{0,50}_lat100_tx2_
 ## Experiment (E3)
 [Latency improvement of LiteReconfig over accuracy-optimized baselines, i.e. SELSA, MEGA, and REPP] [20 human-minutes + 1 compute-hours]: we will run LiteReconfig on the TX2 and examine the latency performance of it. Expected mean latency of LiteReconfig is 28.2 ms. Those of SELSA, MEGA, and REPP are 2112 ms, 861 ms, and 565 ms. So LiteReconfig achieves 74.9X, 30.5X, and 20.0X speed up over these three baselines (claim C3).
 On TX2, run the following commands,
+- For LiteReconfig
+```
+$ conda activate ae
+(ae) $ cd ~/LiteReconfig_AE
+(ae) $ python LiteReconfig.py --gl 0 \
+  --lat_req 33.3 --mobile_device=tx2 \
+  --output=test/executor_LiteReconfig.txt
+```
 
 - For MEGA
 ```
