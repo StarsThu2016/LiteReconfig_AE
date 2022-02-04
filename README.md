@@ -93,6 +93,7 @@ $ conda activate ae
   --lat_req 33.3 --mobile_device=tx2 \
   --output=test/executor_LiteReconfig.txt
 ```
+The results will be written to ```test/executor_LiteReconfig_g0_lat33_tx2_{det,lat}.txt```. We have saved a copy of these files in ```offline_logs_AE/```, and use ```python offline_eval_exp3.py``` to compute the accuracy and latency from these results files. One may replace the filenames by those in the online execution.
 
 - For MEGA
 ```
