@@ -124,16 +124,15 @@ cd ..
 git clone https://github.com/Scalsol/mega.pytorch.git
 cd mega.pytorch
 python setup.py build develop
-cd ..
 
 # Download weights
-https://drive.google.com/file/d/1i39MwpP46x61eHLkRXMzcKhpeKZhkgA6/view
-mv {Download_path}/R_50.pth {path_to_MEGA}/R_50.pth
+gdown https://drive.google.com/uc?id=1i39MwpP46x61eHLkRXMzcKhpeKZhkgA6
 
 # Replace files
-mv REPLACE/mega.pytorch/demo/demo.py {path_to_MEGA}/demo/
-mv REPLACE/mega.pytorch/demo/predictor.py {path_to_MEGA}/demo/
-mv REPLACE/mega.pytorch/demo/VID_testimg_00106000.txt {path_to_MEGA}/
+mv REPLACE/mega.pytorch/demo/demo.py demo/
+mv REPLACE/mega.pytorch/demo/predictor.py demo/
+mv REPLACE/mega.pytorch/demo/VID_testimg_00106000.txt ./
+mv REPLACE/mega.pytorch/mega_core/utils/distributed.py mega_core/utils/
 ```
 
 - Install SELSA
@@ -144,28 +143,30 @@ cd SELSA
 
 conda install ninja cmake pandas scipy
 
-git clone https://github.com/open-mmlab/mmcv.git
-cd mmcv
-MMCV_WITH_OPS=1 pip install -e .
-cd ..
+# Install mmcv from old timestamp
+pip install mmcv-full==1.3.16 -f https://download.openmmlab.com/mmcv/dist/cu100/torch1.3.0/index.html
+
 
 git clone https://github.com/open-mmlab/mmdetection.git
 cd mmdetection
+git checkout c76ab0eb3c637b86c343d8454e07e00cfecc1b78
 pip install -r requirements/build.txt
 pip install -v -e . 
 cd ..
 
 git clone https://github.com/open-mmlab/mmtracking.git
 cd mmtracking
+git checkout b3eedb1ac885821123debad9980a5566cd78c29c
 pip install -r requirements/build.txt
 pip install -v -e .
 
+# Download the weights
 wget https://download.openmmlab.com/mmtracking/vid/selsa/selsa_faster_rcnn_r50_dc5_1x_imagenetvid/selsa_faster_rcnn_r50_dc5_1x_imagenetvid_20201227_204835-2f5a4952.pth
 
-mv REPLACE/mmtracking/demo/demo_vid.py {path_to_SELSA}/demo/
-mv REPLACE/mmtracking/mmtrack/models/vid/base.py {path_to_SELSA}/mmtrack/models/vid
-mv REPLACE/mmtracking/demo/VID_testimg_00106000.txt {path_to_SELSA}/
-
+# Modify files
+mv REPLACE/mmtracking/demo/demo_vid.py demo/
+mv REPLACE/mmtracking/mmtrack/models/vid/base.py mmtrack/models/vid
+mv REPLACE/mmtracking/demo/VID_testimg_00106000.txt ./
 ```
 
 - Install REPP
@@ -183,9 +184,9 @@ unzip REPP_models.zip
 mv REPP_models/demos/YOLOv3/pretrained_models/ILSVRC ILSVRC
 
 # Replace and Add files
-mv REPLACE/Robust-and-efficient-post-processing-for-video-object-detection/demos/YOLOv3/get_repp_predictions.py {path_to_REPP}/demos/YOLOv3
-mv REPLACE/Robust-and-efficient-post-processing-for-video-object-detection/REPP.py {path_to_REPP}/
-mv REPLACE/Robust-and-efficient-post-processing-for-video-object-detection/data_annotations/annotations_val_ILSVRC_chop.txt {path_to_REPP}/data_annotations
+mv REPLACE/Robust-and-efficient-post-processing-for-video-object-detection/demos/YOLOv3/get_repp_predictions.py demos/YOLOv3
+mv REPLACE/Robust-and-efficient-post-processing-for-video-object-detection/REPP.py ./
+mv REPLACE/Robust-and-efficient-post-processing-for-video-object-detection/data_annotations/annotations_val_ILSVRC_chop.txt data_annotations/
 ```
 
 

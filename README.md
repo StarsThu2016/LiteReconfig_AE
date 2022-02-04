@@ -99,11 +99,11 @@ The results will be written to ```test/executor_LiteReconfig_g0_lat33_tx2_{det,l
 ```
 $ conda activate baselines
 # For Full evaluation
-(baselines) $ cd ~/LiteReconfig/baselines/MEGA/mega.pytorch
+(baselines) $ cd ~/LiteReconfig_AE/baselines/MEGA/mega.pytorch
 (baselines) $ python demo/demo.py base configs/vid_R_50_C4_1x.yaml R_50.pth --suffix ".JPEG" --visualize-path VID_testimg_full.txt --output-folder visualization
 
 # For a quick latency evaluation
-(baselines) $ cd ~/LiteReconfig/baselines/MEGA/mega.pytorch
+(baselines) $ cd ~/LiteReconfig_AE/baselines/MEGA/mega.pytorch
 (baselines) $ python demo/demo.py base configs/vid_R_50_C4_1x.yaml R_50.pth --suffix ".JPEG" --visualize-path VID_testimg_00106000.txt --output-folder visualization
 
 These commands will produce the output in two files.
@@ -116,11 +116,11 @@ These commands will produce the output in two files.
 $ conda activate baselines
 
 # For Full evaluation
-(baselines) $ cd ~/LiteReconfig/baselines/SELSA/mmtracking
+(baselines) $ cd ~/LiteReconfig_AE/baselines/SELSA/mmtracking
 (baselines) $ ./demo/demo_vid.py --config ./configs/vid/selsa/selsa_faster_rcnn_r50_dc5_1x_imagenetvid.py --input VID_testimg_full.txt --checkpoint selsa_faster_rcnn_r50_dc5_1x_imagenetvid_20201227_204835-2f5a4952.pth --output test
 
 # For a quick latency evaluation
-(baselines) $ cd ~/LiteReconfig/baselines/SELSA/mmtracking
+(baselines) $ cd ~/LiteReconfig_AE/baselines/SELSA/mmtracking
 (baselines) $ ./demo/demo_vid.py --config ./configs/vid/selsa/selsa_faster_rcnn_r50_dc5_1x_imagenetvid.py --input VID_testimg_00106000.txt --checkpoint selsa_faster_rcnn_r50_dc5_1x_imagenetvid_20201227_204835-2f5a4952.pth --output test
 
 These commands will produce the output in two files.
@@ -133,23 +133,23 @@ The latency log file can be found in 'Files_for_Baselines/mmtracking/resnet50_se
 ```
 $ conda activate baselines
 # For full evaluation
-(baselines) $ cd ~/LiteReconfig/baselines/Robust-and-efficient-post-processing-for-video-object-detection/demos/YOLOv3
+(baselines) $ cd ~/LiteReconfig_AE/baselines/Robust-and-efficient-post-processing-for-video-object-detection/demos/YOLOv3
 (baselines) $ python get_repp_predictions.py --yolo_path ./pretrained_models/ILSVRC/1203_1758_model_8/ \
   --repp_format --add_appearance --from_annotations ../../data_annotations/annotations_val_ILSVRC.txt \
   --dataset_path /home/nvidia/sdcard/ILSVRC2015/Data/VID/
 (baselines) $ cd ../..
-(baselines) $ python REPP.py --repp_cfg ./REPP_cfg/yolo_repp_cfg.json --predictions_file './demos/YOLOv3/predictions/base_preds.pckl' --evaluate --annotations_filename ./data_annotations/annotations_val_ILSVRC.txt  --path_dataset /path/to/dataset/ILSVRC2015/ --store_coco --store_imdb
+(baselines) $ python REPP.py --repp_cfg ./REPP_cfg/yolo_repp_cfg.json --predictions_file './demos/YOLOv3/predictions/base_preds.pckl' --evaluate --annotations_filename ./data_annotations/annotations_val_ILSVRC.txt  --path_dataset /home/nvidia/sdcard/ILSVRC2015/Data/VID/ --store_coco --store_imdb
 
 # For a quick latency evaluation
-(baselines) $ cd ~/LiteReconfig/baselines/Robust-and-efficient-post-processing-for-video-object-detection/demos/YOLOv3
+(baselines) $ cd ~/LiteReconfig_AE/baselines/Robust-and-efficient-post-processing-for-video-object-detection/demos/YOLOv3
 (baselines) $ python get_repp_predictions.py --yolo_path ./pretrained_models/ILSVRC/1203_1758_model_8/ \
   --repp_format --add_appearance --from_annotations ../../data_annotations/annotations_val_ILSVRC_chop.txt \
-  --dataset_path /home/jay/ILSVRC2015/Data/VID/
+  --dataset_path /home/nvidia/sdcard/ILSVRC2015/Data/VID/
 (baselines) $ cd ../..
 (baselines) $ python REPP.py --repp_cfg ./REPP_cfg/yolo_repp_cfg_smb.json \
 ​   --predictions_file './demos/YOLOv3/predictions/preds_repp_app_annotations_val_ILSVRC_chop.pckl' \
 ​   --annotations_filename ./data_annotations/data_annotations/annotations_val_ILSVRC_chop.txt  \
-​   --path_dataset /home/jay/ILSVRC2015 --store_coco
+​   --path_dataset /home/nvidia/sdcard/ILSVRC2015/Data/VID/ --store_coco
 
 The accuracy results for REPP is identical to what is reported in the original repo.
 https://github.com/AlbertoSabater/Robust-and-efficient-post-processing-for-video-object-detection
@@ -157,11 +157,25 @@ https://github.com/AlbertoSabater/Robust-and-efficient-post-processing-for-video
 The latency values are output through the terminal automatically, by calculating the average latency per frame.
 ```
 
-Use `latency_average.py` to calculate the average latency per frame from the latency output file. 
+We have saved a copy of the log files for running on the full test dataset of ILSVRC2015 VID.
 ```
-python latency_average.py --file Files_for_Baselines/mmtracking/resnet50_selsa_lat_n.txt
+# for latency logs
+cd ~/LiteReconfig_AE/Files_for_Baselines/logs
+# change filename to check for different files.
+python latency_average.py --file test_MEGA_lat_n.txt
 
->>Average Latency is 2116.2790597991393 ms
+# for detection logs, download the log and run(logs are already available in our provided TX2-1 board.)
+cd ~/LiteReconfig_AE/Files_for_Baselines/logs
+gdown https://drive.google.com/uc?id=1xebtHJhsxMEJlZFQ2Pnh_XhspKQynGMX
+unzip baseline_logs.zip
+# change filename to check for different files.
+python compute_mAP.py --gt=VID_testgt_full.txt --detection=baseline_logs/test_MEGA_det_n.txt
+
+```
+
+For checking results from the quick latency evaluation, use `latency_average.py` to calculate the average latency per frame from the latency output file. 
+```
+python latency_average.py --file ~/LiteReconfig_AE/mmtracking/resnet50_selsa_lat_n.txt
 ```
 
 

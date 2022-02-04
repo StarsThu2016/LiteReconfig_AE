@@ -26,7 +26,7 @@ def main():
         '--score-thr', type=float, default=0.6, help='bbox score threshold')
     args = parser.parse_args()
 
-    dataset_prefix = '../ILSVRC2015'
+    dataset_prefix = '/home/nvidia/sdcard/ILSVRC2015'
 
     # setup for output logging.
     detoutput_filename = args.output.split(".")[0] + "_selsa_det_n.txt"
