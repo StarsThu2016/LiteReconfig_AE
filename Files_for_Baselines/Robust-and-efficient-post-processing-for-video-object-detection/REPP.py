@@ -383,6 +383,4 @@ if __name__ == '__main__':
 
     t4= time.time()
 
-    print(t4-t1)
-    print('appliying repp')
-    print(t3-t2)
+    print('Average post-processing latency is : {} ms'.format((t3-t2)*1000))

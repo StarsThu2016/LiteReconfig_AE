@@ -92,6 +92,19 @@ cd torchvision
 export BUILD_VERSION=0.4.2
 python3 setup.py install
 
+# install tensorflow
+pip install pip testresources setuptools numpy==1.16.1 future==0.17.1 mock==3.0.5 keras_preprocessing==1.0.5 keras_applications==1.0.8 gast==0.2.2 futures protobuf pybind11
+conda install h5py==2.10.0
+conda install scikit-learn==0.21.3
+pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v44 'tensorflow<2'
+
+# install specific version of keras with pip
+pip install keras==2.2.4
+
+# the pythonpath should be appended if there is no sudo privilages with the account.
+PYTHONPATH="${PYTHONPATH}:/usr/local/lib/python3.6/dist-packages/"
+export PYTHONPATH
+
 pip install gdown
 
 # Grab the replacement files from our repo.

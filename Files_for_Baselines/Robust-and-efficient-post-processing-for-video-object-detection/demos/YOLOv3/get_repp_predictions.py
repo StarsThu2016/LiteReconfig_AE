@@ -203,6 +203,6 @@ if __name__ == '__main__':
     get_scores_predictions_and_embeddings(store_filename, base_model, branch_model, args.add_appearance, args.repp_format)
     t3 = time.time()
     print('Predictions stored:', store_filename)
-    print(t2-t1)
-    print(t3-t2)
-    print(t3-t1)
+
+    print('Average inference latency per frame = {} ms'.format(t3-t2))
+

@@ -95,45 +95,98 @@ $ conda activate ae
 ```
 The results will be written to ```test/executor_LiteReconfig_g0_lat33_tx2_{det,lat}.txt```. We have saved a copy of these files in ```offline_logs_AE/```, and use ```python offline_eval_exp3.py``` to compute the accuracy and latency from these results files. One may replace the filenames by those in the online execution.
 
+
+
 - For MEGA
+If you use our embedded TX2 board, the directory ```~/LiteReconfig_AE/baselines```, is already setup. Otherwise, please follow the [installation guide](INSTALL.md) to manually download and compile each model repository (REPP, MEGA, and SELSA).
+
 ```
 $ conda activate baselines
-# For Full evaluation
+# For full evaluation
 (baselines) $ cd ~/LiteReconfig_AE/baselines/MEGA/mega.pytorch
 (baselines) $ python demo/demo.py base configs/vid_R_50_C4_1x.yaml R_50.pth --suffix ".JPEG" --visualize-path VID_testimg_full.txt --output-folder visualization
 
 # For a quick latency evaluation
 (baselines) $ cd ~/LiteReconfig_AE/baselines/MEGA/mega.pytorch
 (baselines) $ python demo/demo.py base configs/vid_R_50_C4_1x.yaml R_50.pth --suffix ".JPEG" --visualize-path VID_testimg_00106000.txt --output-folder visualization
+```
+These commands will produce the output in two log files, ```test_MEGA_det.txt``` and ```test_MEGA_lat.txt```. To calculate the accuracy and latency from the log files, 
+```
+# For accuracy
+cd ~/LiteReconfig_AE
+# For full evaluation
+python compute_mAP.py --gt=test/VID_testgt_full.txt --detection=baselines/MEGA/mega.pytorch/test_MEGA_det.txt
+# For quick latency evaluation
+python compute_mAP.py --gt=test/VID_testgt_full.txt --detection=baselines/MEGA/mega.pytorch/test_MEGA_det.txt --video=Data/VID/val/ILSVRC2015_val_00106000
 
-These commands will produce the output in two files.
-'test_MEGA_det.txt' for detection results, 'test_MEGA_lat.txt' for latency results.
+# For latency
+cd ~/LiteReconfig_AE
+python Files_for_Baselines/logs/latency_average.py --file baselines/MEGA/mega.pytorch/test_MEGA_lat.txt
+```
+We offer an alternative way to calculate the accuracy and latency from our provided log files, to skip the time consuming evaluation above.
+If you use our TX2 board, the log files are presented in ```~/LiteReconfig_AE/Files_for_Baselines/logs```. Otherwise, please use the following command to download.
+```
+cd ~/LiteReconfig_AE/Files_for_Baselines/logs
+gdown https://drive.google.com/uc?id=1xebtHJhsxMEJlZFQ2Pnh_XhspKQynGMX
+unzip baseline_logs.zip
+```
+To calulate the accuracy and latency from our provided log files, use the following commands.
+```
+# For accuracy
+cd ~/LiteReconfig_AE
+python compute_mAP.py --gt=test/VID_testgt_full.txt --detection=Files_for_Baselines/logs/baseline_logs/test_MEGA_det_n.txt
+
+# For latency
+cd ~/LiteReconfig_AE
+python Files_for_Baselines/logs/latency_average.py --file Files_for_Baselines/logs/test_MEGA_lat_n.txt
 ```
 
 - For SELSA
 ```
-# For SELSA
 $ conda activate baselines
 
-# For Full evaluation
+# For full evaluation
 (baselines) $ cd ~/LiteReconfig_AE/baselines/SELSA/mmtracking
-(baselines) $ ./demo/demo_vid.py --config ./configs/vid/selsa/selsa_faster_rcnn_r50_dc5_1x_imagenetvid.py --input VID_testimg_full.txt --checkpoint selsa_faster_rcnn_r50_dc5_1x_imagenetvid_20201227_204835-2f5a4952.pth --output test
+(baselines) $ python demo/demo_vid.py --config ./configs/vid/selsa/selsa_faster_rcnn_r50_dc5_1x_imagenetvid.py --input VID_testimg_full.txt --checkpoint selsa_faster_rcnn_r50_dc5_1x_imagenetvid_20201227_204835-2f5a4952.pth --output test
 
 # For a quick latency evaluation
 (baselines) $ cd ~/LiteReconfig_AE/baselines/SELSA/mmtracking
-(baselines) $ ./demo/demo_vid.py --config ./configs/vid/selsa/selsa_faster_rcnn_r50_dc5_1x_imagenetvid.py --input VID_testimg_00106000.txt --checkpoint selsa_faster_rcnn_r50_dc5_1x_imagenetvid_20201227_204835-2f5a4952.pth --output test
+(baselines) $ python demo/demo_vid.py --config ./configs/vid/selsa/selsa_faster_rcnn_r50_dc5_1x_imagenetvid.py --input VID_testimg_00106000.txt --checkpoint selsa_faster_rcnn_r50_dc5_1x_imagenetvid_20201227_204835-2f5a4952.pth --output test
+```
+These commands will produce the output in two files, ```test_selsa_det.txt``` and ```test_selsa_lat.txt```. To calculate the accuracy and latency from the log files, 
+```
+# For accuracy
+cd ~/LiteReconfig_AE
+# For full evaluation
+python compute_mAP.py --gt=test/VID_testgt_full.txt --detection=baselines/SELSA/mmtracking/test_selsa_det_n.txt
+# For quick latency evaluation
+python compute_mAP.py --gt=test/VID_testgt_full.txt --detection=baselines/SELSA/mmtracking/test_selsa_det_n.txt --video=Data/VID/val/ILSVRC2015_val_00106000
 
-These commands will produce the output in two files.
-'test_selsa_det.txt' for detection results, 'test_selsa_lat.txt' for latency results.
+# For latency
+cd ~/LiteReconfig_AE
+python Files_for_Baselines/logs/latency_average.py --file baselines/SELSA/mmtracking/test_selsa_lat_n.txt
+```
+We offer an alternative way to calculate the accuracy and latency from our provided log files, to skip the time consuming evaluation above.
+If you use our TX2 board, the log files are presented in ```~/LiteReconfig_AE/Files_for_Baselines/logs```. Otherwise, please refer to the MEGA section for downloading the log files.
 
-The latency log file can be found in 'Files_for_Baselines/mmtracking/resnet50_selsa_lat_n.txt'
+To calulate the accuracy and latency from our provided log files, use the following commands.
+```
+# For accuracy
+cd ~/LiteReconfig_AE
+python compute_mAP.py --gt=test/VID_testgt_full.txt --detection=Files_for_Baselines/logs/baseline_logs/test_SELSA_det_n.txt
+
+# For latency
+cd ~/LiteReconfig_AE
+python Files_for_Baselines/logs/latency_average.py --file Files_for_Baselines/logs/test_SELSA_lat_n.txt
 ```
 
 - For REPP
 ```
 $ conda activate baselines
+$ PYTHONPATH="${PYTHONPATH}:/usr/local/lib/python3.6/dist-packages/"
+$ export PYTHONPATH
 # For full evaluation
-(baselines) $ cd ~/LiteReconfig_AE/baselines/Robust-and-efficient-post-processing-for-video-object-detection/demos/YOLOv3
+(baselines) $ cd ~/LiteReconfig_AE/baselines/REPP/Robust-and-efficient-post-processing-for-video-object-detection/demos/YOLOv3
 (baselines) $ python get_repp_predictions.py --yolo_path ./pretrained_models/ILSVRC/1203_1758_model_8/ \
   --repp_format --add_appearance --from_annotations ../../data_annotations/annotations_val_ILSVRC.txt \
   --dataset_path /home/nvidia/sdcard/ILSVRC2015/Data/VID/
@@ -141,44 +194,50 @@ $ conda activate baselines
 (baselines) $ python REPP.py --repp_cfg ./REPP_cfg/yolo_repp_cfg.json --predictions_file './demos/YOLOv3/predictions/base_preds.pckl' --evaluate --annotations_filename ./data_annotations/annotations_val_ILSVRC.txt  --path_dataset /home/nvidia/sdcard/ILSVRC2015/Data/VID/ --store_coco --store_imdb
 
 # For a quick latency evaluation
-(baselines) $ cd ~/LiteReconfig_AE/baselines/Robust-and-efficient-post-processing-for-video-object-detection/demos/YOLOv3
+(baselines) $ cd ~/LiteReconfig_AE/baselines/REPP/Robust-and-efficient-post-processing-for-video-object-detection/demos/YOLOv3
 (baselines) $ python get_repp_predictions.py --yolo_path ./pretrained_models/ILSVRC/1203_1758_model_8/ \
   --repp_format --add_appearance --from_annotations ../../data_annotations/annotations_val_ILSVRC_chop.txt \
   --dataset_path /home/nvidia/sdcard/ILSVRC2015/Data/VID/
 (baselines) $ cd ../..
-(baselines) $ python REPP.py --repp_cfg ./REPP_cfg/yolo_repp_cfg_smb.json \
-​   --predictions_file './demos/YOLOv3/predictions/preds_repp_app_annotations_val_ILSVRC_chop.pckl' \
-​   --annotations_filename ./data_annotations/data_annotations/annotations_val_ILSVRC_chop.txt  \
-​   --path_dataset /home/nvidia/sdcard/ILSVRC2015/Data/VID/ --store_coco
+(baselines) $ python REPP.py --repp_cfg REPP_cfg/yolo_repp_cfg.json \
+--predictions_file 'demos/YOLOv3/predictions/preds_repp_app_annotations_val_ILSVRC_chop.pckl' \
+--annotations_filename 'data_annotations/data_annotations/annotations_val_ILSVRC_chop.txt'  \
+--path_dataset /home/nvidia/sdcard/ILSVRC2015/Data/VID/ --store_coco
+```
+These command will output one output file ```/home/ae/LiteReconfig_AE/baselines/REPP/Robust-and-efficient-post-processing-for-video-object-detection/demos/YOLOv3/predictions/preds_repp_app_annotations_val_ILSVRC_chop_repp_coco.json``` and two latency outputs in the terminal.
 
-The accuracy results for REPP is identical to what is reported in the original repo.
-https://github.com/AlbertoSabater/Robust-and-efficient-post-processing-for-video-object-detection
+REPP's latency comes from two components, latency of the baseline YOLOv3 model, and latency of the postprocessing script. We calculate the latency seperately, by dividing each terminal outputs by the number of frames and add them together. The number of frames for full evaluation is 176,126 and is 828 for quick latency evaluation.
+```
+# example of running the quick latency evaluation.
+(baselines) $ python get_repp_predictions.py --yolo_path ./pretrained_models/ILSVRC/1203_1758_model_8/ \
+  --repp_format --add_appearance --from_annotations ../../data_annotations/annotations_val_ILSVRC_chop.txt \
+  --dataset_path /home/nvidia/sdcard/ILSVRC2015/Data/VID/
+>> Total inference latency = 416683.7313175201 ms
 
-The latency values are output through the terminal automatically, by calculating the average latency per frame.
+
+(baselines) $ python REPP.py --repp_cfg REPP_cfg/yolo_repp_cfg.json \
+--predictions_file 'demos/YOLOv3/predictions/preds_repp_app_annotations_val_ILSVRC_chop.pckl' \
+--annotations_filename 'data_annotations/data_annotations/annotations_val_ILSVRC_chop.txt'  \
+--path_dataset /home/nvidia/sdcard/ILSVRC2015/Data/VID/ --store_coco
+>> Total post-processing latency is : 22059.343099594116 ms
+
+Then the final average latency per frame would be (416684 + 22059) / 828 = 529 ms
 ```
 
-We have saved a copy of the log files for running on the full test dataset of ILSVRC2015 VID.
+We offer an alternative way to calculate the accuracy and latency from our provided log files, to skip the time consuming evaluation above.
+If you use our TX2 board, the log files are presented in ```~/LiteReconfig_AE/Files_for_Baselines/logs```. Otherwise, please refer to the MEGA section for downloading the log files.
+
+To calulate the accuracy and latency from our provided log files, use the following commands.
 ```
-# for latency logs
-cd ~/LiteReconfig_AE/Files_for_Baselines/logs
-# change filename to check for different files.
-python latency_average.py --file test_MEGA_lat_n.txt
+# For accuracy
+cd ~/LiteReconfig_AE
+python compute_mAP.py --gt=test/VID_testgt_full.txt --detection=Files_for_Baselines/logs/baseline_logs/REPP_and_yolo.txt
 
-# for detection logs, download the log and run(logs are already available in our provided TX2-1 board.)
-cd ~/LiteReconfig_AE/Files_for_Baselines/logs
-gdown https://drive.google.com/uc?id=1xebtHJhsxMEJlZFQ2Pnh_XhspKQynGMX
-unzip baseline_logs.zip
-# change filename to check for different files.
-python compute_mAP.py --gt=VID_testgt_full.txt --detection=baseline_logs/test_MEGA_det_n.txt
-
+# For latency, add the latency from the below two commands.
+cd ~/LiteReconfig_AE
+python Files_for_Baselines/logs/latency_average.py --file Files_for_Baselines/logs/test_REPP_lat_n.txt
+cat Files_for_Baselines/logs/test_REPP_post_lat_n.txt
 ```
-
-For checking results from the quick latency evaluation, use `latency_average.py` to calculate the average latency per frame from the latency output file. 
-```
-python latency_average.py --file ~/LiteReconfig_AE/mmtracking/resnet50_selsa_lat_n.txt
-```
-
-
 
 ## Experiment (E4)
 [Accuracy improvement at the same latency over a variant of LiteReconfig, i.e. LiteReconfig-MaxContent-ResNet] [20 human-minutes + 10 compute-hours]: we will run LiteReconfig and LiteReconfig-MaxContent-ResNet on the TX2 and examine the accuracy and latency performance of them. Expected accuracy given no contention and 33.3 ms latency SLA is 45.4% for LiteReconfig and 44.4% for LiteReconfig-MaxContent-ResNet. Expected accuracy given 50\% contention and 50 ms latency SLA is 43.6% for LiteReconfig and 41.4% for LiteReconfig-MaxContent-ResNet. Thus, LiteReconfig is 1.0% and 2.2% mAP better than LiteReconfig-MaxContent-ResNet in these two cases  (claim C4).
