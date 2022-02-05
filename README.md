@@ -208,7 +208,22 @@ These command will output one output file ```/home/ae/LiteReconfig_AE/baselines/
 
 REPP's latency comes from two components, latency of the baseline YOLOv3 model, and latency of the postprocessing script. We calculate the latency seperately, by dividing each terminal outputs by the number of frames and add them together. The number of frames for full evaluation is 176,126 and is 828 for quick latency evaluation.
 ```
-# example of running the quick latency evaluation.
+# For accuracy
+cd ~/LiteReconfig_AE
+
+# For full evaluation
+python repp2ours.py --reppfile ~/LiteReconfig_AE/baselines/REPP/Robust-and-efficient-post-processing-for-video-object-detection/demos/YOLOv3/predictions/preds_repp_app_annotations_val_ILSVRC_repp_coco.json \
+--output ~/LiteReconfig_AE/baselines/REPP/Robust-and-efficient-post-processing-for-video-object-detection/converted.txt \
+--dataset_prefix /home/nvidia/sdcard/ILSVRC2015/
+python compute_mAP.py --gt=test/VID_testgt_full.txt --detection=~/LiteReconfig_AE/baselines/REPP/Robust-and-efficient-post-processing-for-video-object-detection/converted.txt
+
+# For quick latency evaluation
+python repp2ours.py --reppfile ~/LiteReconfig_AE/baselines/REPP/Robust-and-efficient-post-processing-for-video-object-detection/demos/YOLOv3/predictions/preds_repp_app_annotations_val_ILSVRC_chop_repp_coco.json \
+--output ~/LiteReconfig_AE/baselines/REPP/Robust-and-efficient-post-processing-for-video-object-detection/converted.txt \
+--dataset_prefix /home/nvidia/sdcard/ILSVRC2015/
+python compute_mAP.py --gt=test/VID_testgt_full.txt --detection=~/LiteReconfig_AE/baselines/REPP/Robust-and-efficient-post-processing-for-video-object-detection/converted.txt --video=Data/VID/val/ILSVRC2015_val_00106000
+
+# For latency
 (baselines) $ python get_repp_predictions.py --yolo_path ./pretrained_models/ILSVRC/1203_1758_model_8/ \
   --repp_format --add_appearance --from_annotations ../../data_annotations/annotations_val_ILSVRC_chop.txt \
   --dataset_path /home/nvidia/sdcard/ILSVRC2015/Data/VID/
