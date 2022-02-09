@@ -1,4 +1,12 @@
 # Installation Guide on Embedded Devices
+## Fix the power mode and DVFS setting
+To help replicate the results, we suggest fixing the power mode and DVFS setting of the board.  
+This is only needed if you want to set up the env on a new board. Use the following commands:
+```
+# We use power mode 0 for both TX2 and AGX Xavier
+sudo nvpmodel -m 0
+sudo jetson_clocks
+```
 
 ## Install the virtual environment tool
 The following commands will install a special conda for the embedded boards (aarch64).
