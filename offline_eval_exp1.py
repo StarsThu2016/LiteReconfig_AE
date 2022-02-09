@@ -26,10 +26,10 @@ filename = "offline_logs_AE/executor_LiteReconfig_g0_lat33_tx2_lat.txt"
 _, _, lat_p95 = get_latency_from_LiteReconfig(filename)
 filename = "offline_logs_AE/executor_LiteReconfig_g0_lat33_tx2_det.txt"
 meanAP = compute_mAP(gt="test/VID_testgt_full.txt", detection=filename)
-print(f"LiteReconfig, no contention: {meanAP*100:.1f}% mAP, {lat_p95:.1f} ms p95 latency.")
+print(f"LiteReconfig, no contention on tx2: {meanAP*100:.1f}% mAP, {lat_p95:.1f} ms p95 latency.")
 
 filename = "offline_logs_AE/executor_LiteReconfig_g0_lat20_xv_lat.txt"
 _, _, lat_p95 = get_latency_from_LiteReconfig(filename)
 filename = "offline_logs_AE/executor_LiteReconfig_g0_lat20_xv_det.txt"
 meanAP = compute_mAP(gt="test/VID_testgt_full.txt", detection=filename)
-print(f"LiteReconfig, 50% GPU contention: {meanAP*100:.1f}% mAP, {lat_p95:.1f} ms p95 latency.")
+print(f"LiteReconfig, no GPU contention on xv: {meanAP*100:.1f}% mAP, {lat_p95:.1f} ms p95 latency.")
