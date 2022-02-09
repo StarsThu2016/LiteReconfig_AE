@@ -43,8 +43,10 @@ pip install gdown
 
 # TX2:
 # Install tensorflow-gpu
-pip3 install numpy==1.16.4 termcolor tensorboard==1.14.0 tensorflow-estimator=1.14.0 sklearn
-pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v42 tensorflow-gpu==1.14.0+nv19.10
+pip install numpy==1.16.4 termcolor tensorboard==1.14.0 tensorflow-estimator=1.14.0 sklearn
+pip install pip testresources setuptools numpy==1.16.1 future==0.17.1 mock==3.0.5 keras_preprocessing==1.0.5 keras_applications==1.0.8 gast==0.2.2 futures protobuf pybind11
+conda install h5py==2.10.0
+pip install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v42 tensorflow-gpu==1.14.0+nv19.10
 # Install opencv
 conda install opencv=4.5.1
 # Install scikit-learn
@@ -59,9 +61,9 @@ python setup.py install
 
 # Xavier:
 # Install tensorflow-gpu
-pip3 install pip testresources setuptools numpy==1.16.1 future==0.17.1 mock==3.0.5 keras_preprocessing==1.0.5 keras_applications==1.0.8 gast==0.2.2 futures protobuf pybind11
+pip install pip testresources setuptools numpy==1.16.1 future==0.17.1 mock==3.0.5 keras_preprocessing==1.0.5 keras_applications==1.0.8 gast==0.2.2 futures protobuf pybind11
 conda install h5py==2.10.0
-pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v44 'tensorflow<2'
+pip install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v44 'tensorflow<2'
 # Install opencv
 conda install opencv=4.5.1
 # Install scikit-learn
