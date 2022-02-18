@@ -798,7 +798,7 @@ class OpenCVTracker:
         self.ds = ds
         self.prev_frame = None
         self.prev_bboxes = []  # (cls, conf, ymin, xmin, ymax, xmax) in [0,1] range
-        self.internal_tracker = cv2.legacy.MultiTracker_create()
+        self.internal_tracker = cv2.MultiTracker_create()
         self.original_info = []
         self.tracker_name = name
 
@@ -825,7 +825,7 @@ class OpenCVTracker:
         elif trackerType == trackerTypes[3]:
             tracker = cv2.TrackerTLD_create()
         elif trackerType == trackerTypes[4]:
-            tracker = cv2.legacy.TrackerMedianFlow_create()
+            tracker = cv2.TrackerMedianFlow_create()
         elif trackerType == trackerTypes[5]:
             tracker = cv2.TrackerGOTURN_create()
         elif trackerType == trackerTypes[6]:

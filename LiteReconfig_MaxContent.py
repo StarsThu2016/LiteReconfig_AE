@@ -35,8 +35,8 @@ scheduler = SchedulerOnline(user_requirement=args.lat_req, p95_requirement=True,
                             protocol=args.protocol, mobile_device=args.mobile_device,
                             tv_version=args.tv_version, dataset_prefix=args.dataset_prefix)
 filename_pre = args.output.rsplit(".", 1)[0]
-filename_det = f"{filename_pre}_lat{int(args.lat_req)}_g{args.gl}_{args.mobile_device}_det.txt"
-filename_lat = f"{filename_pre}_lat{int(args.lat_req)}_g{args.gl}_{args.mobile_device}_lat.txt"
+filename_det = f"{filename_pre}_g{args.gl}_lat{int(args.lat_req)}_{args.mobile_device}_det.txt"
+filename_lat = f"{filename_pre}_g{args.gl}_lat{int(args.lat_req)}_{args.mobile_device}_lat.txt"
 with open(filename_det, "w") as fout_det, open(filename_lat, "w") as fout_lat:
     executor = MBODF(feat=scheduler.feat, kernel="FRCNN+", frcnn_weight="models/ApproxDet.pb",
                      fout_det=fout_det, fout_lat=fout_lat)
