@@ -1,0 +1,48 @@
+absl-py==1.0.0
+astor==0.8.1
+certifi==2021.10.8
+charset-normalizer==2.0.11
+colorama @ file:///home/conda/feedstock_root/build_artifacts/colorama_1602866480661/work
+dataclasses==0.8
+filelock==3.4.1
+future==0.17.1
+futures==3.0.5
+gast==0.2.2
+gdown==3.10.1
+google-pasta==0.2.0
+grpcio==1.44.0rc2
+h5py==2.10.0
+idna==3.3
+importlib-metadata==4.8.3
+jetson-stats==3.1.0
+joblib @ file:///home/conda/feedstock_root/build_artifacts/joblib_1633637554808/work
+Keras-Applications==1.0.8
+Keras-Preprocessing==1.0.5
+llvmlite==0.30.0
+Markdown==3.3.6
+mock==3.0.5
+numba==0.46.0
+numpy==1.16.1
+opt-einsum==3.3.0
+pbr==5.8.0
+Pillow==9.0.0
+protobuf==3.19.4
+pybind11==2.9.0
+PySocks==1.7.1
+requests==2.27.1
+scikit-learn==0.21.3
+scipy @ file:///drone/src/build_artifacts/scipy_1604304708852/work
+six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
+tensorboard==1.15.0
+tensorflow==1.15.4+nv20.12
+tensorflow-estimator==1.15.1
+termcolor==1.1.0
+testresources==2.0.1
+torch @ file:///home/ae/torch-1.7.0-cp36-cp36m-linux_aarch64.whl
+torchvision==0.8.1
+tqdm @ file:///home/conda/feedstock_root/build_artifacts/tqdm_1632160078689/work
+typing-extensions==4.0.1
+urllib3==1.26.8
+Werkzeug==2.0.2
+wrapt==1.13.3
+zipp==3.6.0
