@@ -1,6 +1,6 @@
 # Installation Guide on Embedded Devices
 ## pip and conda packages
-We save the list of pip and conda installed packages on the TX2 and the AGX Xavier at "env/{conda,pip}_package_list_{tx2,xv}.txt". These files are references for the exact packages and versions. However, we still recommend you to go through this installation guide if you work on your own device.  
+We save the list of pip and conda installed packages on the TX2 and the AGX Xavier at "env/{conda,pip}\_package_list\_{tx2,xv}.txt". These files are references for the exact packages and versions. However, we still recommend you to go through this installation guide if you work on your own device.  
 
 ## Fix the power mode and DVFS setting
 To help replicate the results, we suggest fixing the power mode and DVFS setting of the board.  
