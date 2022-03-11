@@ -1,4 +1,6 @@
 # Installation Guide on Embedded Devices
+We provide a Docker option to evaluate LiteReconfig without the time-consuming setup process. Check the [installation guide with docker](docker/README.md) and skip the remaining of this guide. This is a proof of concept for the installing steps below. To guarantee the performance of LiteReconfig, you must run LiteReconfig on the original OS without a docker container.
+
 ## pip and conda packages
 We save the list of pip and conda installed packages on the TX2 and the AGX Xavier at "env/{conda,pip}\_package_list\_{tx2,xv}.txt". These files are references for the exact packages and versions. However, we still recommend you to go through this installation guide if you work on your own device.  
 
