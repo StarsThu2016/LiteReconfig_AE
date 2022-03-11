@@ -124,8 +124,10 @@ pip install gdown
 
 # Grab the replacement files from our repo.
 git clone https://github.com/StarsThu2016/LiteReconfig_AE.git
-cd LiteReconfig_AE/Files_for_Baselines
-
+cd LiteReconfig_AE
+mkdir Files_for_Baselines; cd Files_for_Baselines
+gdown https://drive.google.com/uc?id=1-3yenubLcZ5XizG_jgehV0OB-TmiTzPQ
+tar -xf Files_for_Baselines.tar.xz
 export REPLACE=$PWD
 ```
 
